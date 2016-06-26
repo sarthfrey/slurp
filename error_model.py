@@ -24,17 +24,18 @@ def edit_prob(operation, confusion_params):
 	}
 	confusion_matrix = operation_choice[operation]
 	total = 0
+	count = 0
 	for k, v in confusion_matrix.items():
 		if k[1] == y:
 			total += v
 		if confusion_params == k:
 			count = v
-	return float(count) / total
+	return float(count + 1) / (total + 1)
 
-def error_model_prob(candidate_data):
+def error_model_prob(candidate_data, beta):
 	operation, confusion_params, candidate = candidate_data
 	if isinstance(candidate, str):
 		return edit_prob(operation, confusion_params)
-	return edit_prob(operation, confusion_params) * edit_prob(candidate[0], candidate[1])
+	return edit_prob(operation, confusion_params) * edit_prob(candidate[0], candidate[1]) ** beta
 
 
